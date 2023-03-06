@@ -330,8 +330,12 @@ class ForensicIMIngestModule(DataSourceIngestModule):
             for message in messages:
                 message_type = ARTIFACT_PREFIX
                 message_id = None
-                direction = self.deduce_message_direction(message["fromUid"] != 0)
-                phone_number_from = None
+                if message["fromUid"]:
+                    direction = self.deduce_message_direction(message["fromUid"] != 0)
+                    phone_number_from = message["fromUid"]
+                else:
+                    direction = CommunicationDirection.UNKNOWN
+                    phone_number_from = None
                 phone_number_to = None
                 message_date_time = int(message['sendDttm'])/1000
                 message_read_status = MessageReadStatus.UNKNOWN
