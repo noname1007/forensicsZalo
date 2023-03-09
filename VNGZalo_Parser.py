@@ -334,7 +334,7 @@ class ForensicIMIngestModule(DataSourceIngestModule):
                     direction = self.deduce_message_direction(message["fromUid"] != 0)
                     phone_number_from = message["fromUid"]
                 else:
-                    direction = CommunicationDirection.UNKNOWN
+                    direction = None
                     phone_number_from = None
                 phone_number_to = None
                 message_date_time = int(message['sendDttm'])/1000
@@ -345,7 +345,7 @@ class ForensicIMIngestModule(DataSourceIngestModule):
                         message_text = message["resend"]['content']['text']
                         message_mention = message["resend"]['content']['mentions']
                     else:
-                        message_text = message['z_parsedTokens']
+                        message_text = message['message'].decode('unicode_escape').replace("b'", '').replace("'", "")
                     thread_id = message["resend"]['conversationId']
                     phone_number_from = message["resend"]['userId']
                     message_id = message["msgId"]
