@@ -334,7 +334,7 @@ class ForensicIMIngestModule(DataSourceIngestModule):
                     direction = self.deduce_message_direction(message["fromUid"] != 0)
                     phone_number_from = message["fromUid"]
                 else:
-                    direction = None
+                    direction = CommunicationDirection.UNKNOWN
                     phone_number_from = None
                 phone_number_to = None
                 message_date_time = int(message['sendDttm'])/1000
